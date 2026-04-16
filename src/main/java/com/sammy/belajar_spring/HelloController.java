@@ -31,6 +31,7 @@ public class HelloController {
         return "Home Page";
     }
 
+/*
     @GetMapping("/users")
     public List<User> getUsers() {
 
@@ -41,5 +42,17 @@ public class HelloController {
         users.add(new User("Andi", 40));
 
         return users;
+    }
+*/
+
+    private final UserService userService;
+
+    public HelloController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/users")
+    public List<User> getUsers() {
+        return userService.getAllUsers();
     }
 }
