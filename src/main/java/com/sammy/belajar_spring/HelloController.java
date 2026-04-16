@@ -3,6 +3,9 @@ package com.sammy.belajar_spring;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class HelloController {
 
@@ -26,5 +29,17 @@ public class HelloController {
     @GetMapping("/")
     public String home() {
         return "Home Page";
+    }
+
+    @GetMapping("/users")
+    public List<User> getUsers() {
+
+        List<User> users = new ArrayList<>();
+
+        users.add(new User("Elkan", 25));
+        users.add(new User("Baggot", 30));
+        users.add(new User("Andi", 40));
+
+        return users;
     }
 }
