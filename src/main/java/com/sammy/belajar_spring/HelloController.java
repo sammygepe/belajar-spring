@@ -61,6 +61,6 @@ public class HelloController {
 
     @PostMapping("/user")
     public User createUser(@RequestBody User user) {
-        return user;
+        return userService.addUser(user);
     }
 }
