@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 @RestController
 public class HelloController {
 
@@ -54,5 +57,10 @@ public class HelloController {
     @GetMapping("/users")
     public List<User> getUsers() {
         return userService.getAllUsers();
+    }
+
+    @PostMapping("/user")
+    public User createUser(@RequestBody User user) {
+        return user;
     }
 }

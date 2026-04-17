@@ -1,8 +1,12 @@
 package com.sammy.belajar_spring;
 
 public class User {
+
     private String nama;
     private int umur;
+
+    public User() {
+    }
 
     public User(String nama, int umur) {
         this.nama = nama;
@@ -13,40 +17,15 @@ public class User {
         return nama;
     }
 
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
     public int getUmur() {
         return umur;
     }
 
-/*
-Kenapa HARUS pakai getter?
-1. Standard Java (WAJIB di backend)
-    Getter = cara resmi akses data
-2. Jackson default pakai getter
-
-    Normalnya:
-
-    getNama() → "nama"
-    getUmur() → "umur"
-
-    👉 tanpa getter:
-
-    bisa error di beberapa config
-    bisa tidak terbaca
-
-3. Encapsulation (yang kamu sudah pelajari)
-    private String nama;
-
-    👉 hanya boleh diakses lewat:
-
-    getNama()
-
-4. Bisa custom logic
-    public String getNama() {
-        return nama.toUpperCase();
+    public void setUmur(int umur) {
+        this.umur = umur;
     }
-
-    👉 JSON jadi:
-
-    "NAMA": "ELKAN"
-*/
 }
