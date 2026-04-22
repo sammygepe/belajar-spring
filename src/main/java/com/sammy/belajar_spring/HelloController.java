@@ -19,7 +19,7 @@ public class HelloController {
     }
 
     @GetMapping("/users/{id}")
-    public User getUser(@PathVariable int id) {
+    public User getUser(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
@@ -29,12 +29,12 @@ public class HelloController {
     }
 
     @PutMapping("/users/{id}")
-    public User updateUser(@PathVariable int id, @RequestBody User user) {
+    public User updateUser(@PathVariable Long id, @RequestBody User user) {
         return userService.updateUser(id, user);
     }
 
     @DeleteMapping("/users/{id}")
-    public String deleteUser(@PathVariable int id) {
+    public String deleteUser(@PathVariable Long id) {
         return userService.deleteUser(id);
     }
 }

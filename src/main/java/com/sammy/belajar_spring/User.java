@@ -1,25 +1,39 @@
 package com.sammy.belajar_spring;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class User {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String nama;
     private int umur;
 
     public User() {
     }
 
-    public User(int id, String nama, int umur) {
+    public User(String nama, int umur) {
+        this.nama = nama;
+        this.umur = umur;
+    }
+
+    public User(Long id, String nama, int umur) {
         this.id = id;
         this.nama = nama;
         this.umur = umur;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -11,17 +11,17 @@ public class UserService {
     private List<User> users = new ArrayList<>();
 
     public UserService() {
-        users.add(new User(1, "Elkan", 25));
-        users.add(new User(2, "Baggot", 30));
+        users.add(new User(1L, "Elkan", 25));
+        users.add(new User(2L, "Baggot", 30));
     }
 
     public List<User> getAllUsers() {
         return users;
     }
 
-    public User getUserById(int id) {
+    public User getUserById(Long id) {
         for (User user : users) {
-            if (user.getId() == id) {
+            if (user.getId().equals(id)) {
                 return user;
             }
         }
@@ -29,14 +29,13 @@ public class UserService {
     }
 
     public User addUser(User user) {
-        user.setId(users.size() + 1);
         users.add(user);
         return user;
     }
 
-    public User updateUser(int id, User newUser) {
+    public User updateUser(Long id, User newUser) {
         for (User user : users) {
-            if (user.getId() == id) {
+            if (user.getId().equals(id)) {
                 user.setNama(newUser.getNama());
                 user.setUmur(newUser.getUmur());
                 return user;
@@ -45,9 +44,9 @@ public class UserService {
         return null;
     }
 
-    public String deleteUser(int id) {
+    public String deleteUser(Long id) {
         for (User user : users) {
-            if (user.getId() == id) {
+            if (user.getId().equals(id)) {
                 users.remove(user);
                 return "User deleted";
             }
