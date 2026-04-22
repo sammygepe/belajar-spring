@@ -2,55 +2,54 @@ package com.sammy.belajar_spring;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserService {
 
-    private List<User> users = new ArrayList<>();
+    private final UserRepository userRepository;
 
-    public UserService() {
-        users.add(new User(1L, "Elkan", 25));
-        users.add(new User(2L, "Baggot", 30));
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
+    // GET ALL
     public List<User> getAllUsers() {
-        return users;
+        return userRepository.findAll();
     }
 
+    // GET BY ID
     public User getUserById(Long id) {
-        for (User user : users) {
-            if (user.getId().equals(id)) {
-                return user;
-            }
-        }
-        return null;
+        return userRepository.findById(id).orElse(null);
     }
 
+    // CREATE
     public User addUser(User user) {
-        users.add(user);
-        return user;
+        return userRepository.save(user);
     }
 
+    // UPDATE
     public User updateUser(Long id, User newUser) {
-        for (User user : users) {
-            if (user.getId().equals(id)) {
-                user.setNama(newUser.getNama());
-                user.setUmur(newUser.getUmur());
-                return user;
-            }
+        User user = userRepository.findById(id).orElse(null);
+
+        if (user != null) {
+            user.setNama(newUser.getNama());
+            user.setUmur(newUser.getUmur());
+            return userRepository.save(user);
         }
+
         return null;
     }
 
+    // DELETE
     public String deleteUser(Long id) {
-        for (User user : users) {
-            if (user.getId().equals(id)) {
-                users.remove(user);
-                return "User deleted";
-            }
+        User user = userRepository.findById(id).orElse(null);
+
+        if (user != null) {
+            userRepository.delete(user);
+            return "User deleted";
         }
+
         return "User not found";
     }
 }
