@@ -3,53 +3,77 @@ package com.sammy.belajar_spring;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+// Menandakan class ini service layer
 @Service
 public class UserService {
 
+    // Ambil akses database dari repository
     private final UserRepository userRepository;
 
+    // Constructor Injection (best practice)
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    // GET ALL
+    // =====================================
+    // AMBIL SEMUA USER
+    // =====================================
     public List<User> getAllUsers() {
+
+        // SELECT * FROM users
         return userRepository.findAll();
     }
 
-    // GET BY ID
+    // =====================================
+    // AMBIL USER BERDASARKAN ID
+    // =====================================
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
+
+        // Optional = bisa ada / tidak ada
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User tidak ditemukan"));
     }
 
-    // CREATE
+    // =====================================
+    // TAMBAH USER BARU
+    // =====================================
     public User addUser(User user) {
+
+        // INSERT INTO users ...
         return userRepository.save(user);
     }
 
-    // UPDATE
+    // =====================================
+    // UPDATE USER
+    // =====================================
     public User updateUser(Long id, User newUser) {
-        User user = userRepository.findById(id).orElse(null);
 
-        if (user != null) {
-            user.setNama(newUser.getNama());
-            user.setUmur(newUser.getUmur());
-            return userRepository.save(user);
-        }
+        // Cari user lama dulu
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User tidak ditemukan"));
 
-        return null;
+        // Update field
+        user.setNama(newUser.getNama());
+        user.setUmur(newUser.getUmur());
+
+        // Save kembali
+        return userRepository.save(user);
     }
 
-    // DELETE
+    // =====================================
+    // DELETE USER
+    // =====================================
     public String deleteUser(Long id) {
-        User user = userRepository.findById(id).orElse(null);
 
-        if (user != null) {
-            userRepository.delete(user);
-            return "User deleted";
-        }
+        // Cek apakah ada
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User tidak ditemukan"));
 
-        return "User not found";
+        // Hapus
+        userRepository.delete(user);
+
+        return "User berhasil dihapus";
     }
 }
