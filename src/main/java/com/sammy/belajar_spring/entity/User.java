@@ -1,34 +1,33 @@
-package com.sammy.belajar_spring;
+package com.sammy.belajar_spring.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "users")
 public class User {
 
-    // Primary Key
+    // Primary key
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Tidak boleh kosong
-    @NotBlank(message = "Nama wajib diisi")
+    // Nama user
     private String nama;
 
-    // Minimal umur = 1
-    @Min(value = 1, message = "Umur minimal 1")
+    // Umur user
     private int umur;
 
+    // Constructor kosong wajib JPA
     public User() {
     }
 
+    // Constructor manual
     public User(String nama, int umur) {
         this.nama = nama;
         this.umur = umur;
     }
 
+    // Getter Setter
     public Long getId() {
         return id;
     }
