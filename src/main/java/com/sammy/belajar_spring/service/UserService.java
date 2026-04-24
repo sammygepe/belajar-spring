@@ -13,24 +13,33 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    // Constructor Injection
+    // Dependency Injection
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    // Ambil semua user
-    public List<User> getAllUsers() {
+    // =====================================
+    // GET ALL USERS
+    // =====================================
+    public List<User> findAllUsers() {
         return userRepository.findAll();
     }
 
-    // Cari user by id
-    public User getUserById(Long id) {
+    // =====================================
+    // GET USER BY ID
+    // =====================================
+    public User findUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() ->
-                        new UserNotFoundException("User id " + id + " tidak ditemukan"));
+                        new UserNotFoundException(
+                                "User dengan id " + id + " tidak ditemukan"
+                        )
+                );
     }
 
-    // Tambah user baru
+    // =====================================
+    // CREATE USER
+    // =====================================
     public User createUser(UserRequest request) {
 
         User user = new User();
@@ -41,10 +50,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // Update user
+    // =====================================
+    // UPDATE USER
+    // =====================================
     public User updateUser(Long id, UserRequest request) {
 
-        User user = getUserById(id);
+        User user = findUserById(id);
 
         user.setNama(request.getNama());
         user.setUmur(request.getUmur());
@@ -52,10 +63,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // Delete user
+    // =====================================
+    // DELETE USER
+    // =====================================
     public void deleteUser(Long id) {
 
-        User user = getUserById(id);
+        User user = findUserById(id);
 
         userRepository.delete(user);
     }

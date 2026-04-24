@@ -1,9 +1,12 @@
 package com.sammy.belajar_spring.controller;
 
+import com.sammy.belajar_spring.dto.ApiResponse;
 import com.sammy.belajar_spring.dto.UserRequest;
 import com.sammy.belajar_spring.entity.User;
 import com.sammy.belajar_spring.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,37 +22,70 @@ public class UserController {
         this.userService = userService;
     }
 
-    // GET /users
+    // =====================================
+    // GET ALL USERS
+    // =====================================
     @GetMapping
-    public List<User> getAll() {
-        return userService.getAllUsers();
+    public ResponseEntity<ApiResponse<List<User>>> getAllUsers() {
+
+        List<User> users = userService.findAllUsers();
+
+        return ResponseEntity.ok(
+                new ApiResponse<>("Success get users", users)
+        );
     }
 
-    // GET /users/1
+    // =====================================
+    // GET USER BY ID
+    // =====================================
     @GetMapping("/{id}")
-    public User getById(@PathVariable Long id) {
-        return userService.getUserById(id);
+    public ResponseEntity<ApiResponse<User>> getUserById(@PathVariable Long id) {
+
+        User user = userService.findUserById(id);
+
+        return ResponseEntity.ok(
+                new ApiResponse<>("Success get user", user)
+        );
     }
 
-    // POST /users
+    // =====================================
+    // CREATE USER
+    // =====================================
     @PostMapping
-    public User create(@Valid @RequestBody UserRequest request) {
-        return userService.createUser(request);
+    public ResponseEntity<ApiResponse<User>> createUser(
+            @Valid @RequestBody UserRequest request) {
+
+        User savedUser = userService.createUser(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new ApiResponse<>("User created", savedUser));
     }
 
-    // PUT /users/1
+    // =====================================
+    // UPDATE USER
+    // =====================================
     @PutMapping("/{id}")
-    public User update(@PathVariable Long id,
-                       @Valid @RequestBody UserRequest request) {
-        return userService.updateUser(id, request);
+    public ResponseEntity<ApiResponse<User>> updateUser(
+            @PathVariable Long id,
+            @Valid @RequestBody UserRequest request) {
+
+        User updatedUser = userService.updateUser(id, request);
+
+        return ResponseEntity.ok(
+                new ApiResponse<>("User updated", updatedUser)
+        );
     }
 
-    // DELETE /users/1
+    // =====================================
+    // DELETE USER
+    // =====================================
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<String>> deleteUser(@PathVariable Long id) {
 
         userService.deleteUser(id);
 
-        return "User berhasil dihapus";
+        return ResponseEntity.ok(
+                new ApiResponse<>("User deleted", null)
+        );
     }
 }
