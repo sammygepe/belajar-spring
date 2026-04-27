@@ -91,4 +91,21 @@ public class OrderController {
                 )
         );
     }
+
+    // SEARCH ORDER BY INVOICE
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<List<OrderHeader>>> searchOrder(
+            @RequestParam String invoice
+    ) {
+
+        List<OrderHeader> orders =
+                orderService.searchByInvoice(invoice);
+
+        return ResponseEntity.ok(
+                new ApiResponse<>(
+                        "Success search order",
+                        orders
+                )
+        );
+    }
 }

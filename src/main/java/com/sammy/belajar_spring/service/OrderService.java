@@ -118,4 +118,10 @@ public class OrderService {
         // Detail ikut terhapus karena cascade
         orderHeaderRepository.delete(order);
     }
+
+    // SEARCH BY INVOICE
+    public List<OrderHeader> searchByInvoice(String invoice) {
+        return orderHeaderRepository
+                .findByInvoiceNoContainingIgnoreCase(invoice);
+    }
 }
