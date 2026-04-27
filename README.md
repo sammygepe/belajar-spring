@@ -1,147 +1,225 @@
-# BELAJAR SPRING BOOT PROJECT
+# Belajar Spring Boot - User Management REST API
 
-Nama Project:
-belajar-spring
+Project backend REST API menggunakan **Java Spring Boot** untuk manajemen data user.
+Dibuat sebagai media belajar menuju level **Backend Developer Java Spring Boot**.
 
-Deskripsi:
-Project latihan backend menggunakan Java Spring Boot + MySQL dengan struktur clean architecture sederhana.
-Saat ini project sudah berkembang menjadi REST API professional level basic-intermediate.
+---
 
-# STRUKTUR PACKAGE
+# 🚀 Tech Stack
 
-com.sammy.belajar_spring
-│
-├── BelajarSpringApplication.java
-│   -> Main class untuk menjalankan aplikasi
-│
-├── controller/
+* Java 17
+* Spring Boot 3
+* Spring Web
+* Spring Data JPA
+* Hibernate
+* MySQL
+* Maven
+* Swagger OpenAPI
+* IntelliJ IDEA
+* Postman
+
+---
+
+# 📦 Features
+
+## ✅ CRUD User
+
+* Create User
+* Get All Users
+* Get User By ID
+* Update User
+* Delete User
+
+## ✅ Validation
+
+Menggunakan Bean Validation:
+
+* Nama wajib diisi
+* Umur minimal 1
+
+## ✅ Global Exception Handler
+
+Menampilkan error JSON rapi:
+
+* Validation Error
+* User Not Found
+
+## ✅ DTO Pattern
+
+* UserRequest
+* ApiResponse<T>
+
+## ✅ Professional API Response
+
+Menggunakan:
+
+```text
+ResponseEntity
+ApiResponse<T>
+```
+
+## ✅ Pagination + Sorting + Search
+
+Contoh:
+
+```text
+GET /users?page=0&size=5
+GET /users?sortBy=nama&direction=asc
+GET /users/search?keyword=sam
+```
+
+## ✅ Swagger Documentation
+
+Interactive API documentation:
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+
+---
+
+# 📁 Project Structure
+
+```text
+src/main/java/com/sammy/belajar_spring/
+
+├── controller
 │   └── UserController.java
-│   -> Menerima HTTP request dan expose REST API endpoint
-│
-├── service/
+
+├── service
 │   └── UserService.java
-│   -> Menangani business logic aplikasi
-│
-├── repository/
+
+├── repository
 │   └── UserRepository.java
-│   -> Akses database menggunakan Spring Data JPA
-│
-├── entity/
+
+├── entity
 │   └── User.java
-│   -> Mapping tabel users di MySQL
-│
-├── dto/
+
+├── dto
 │   ├── UserRequest.java
-│   -> Request body + validation input
-│   │
 │   └── ApiResponse.java
-│   -> Standard response JSON API
-│
-└── exception/
-├── GlobalExceptionHandler.java
-│   -> Menangani error menjadi JSON response
-│
-└── UserNotFoundException.java
--> Custom error jika user tidak ditemukan
 
-# FITUR SELESAI
+├── exception
+│   ├── GlobalExceptionHandler.java
+│   └── UserNotFoundException.java
+```
 
-[✓] Setup Spring Boot Maven project
-[✓] Koneksi MySQL
-[✓] Konfigurasi application.properties
-[✓] Spring Data JPA + Hibernate
-[✓] Auto create table users
-[✓] Full CRUD API
-[✓] Layer Controller / Service / Repository
-[✓] Validation input (@NotBlank, @Min)
-[✓] Error JSON response
-[✓] Global Exception Handler
-[✓] Clean package structure
-[✓] ResponseEntity standard API response
-[✓] ApiResponse<T> generic response
-[✓] Pagination
-[✓] Sorting
-[✓] Search user by nama
-[✓] Git ready project
+---
 
-# API ENDPOINT
+# 🔥 API Endpoints
 
+## User CRUD
+
+```http
 GET    /users
 GET    /users/{id}
 POST   /users
 PUT    /users/{id}
 DELETE /users/{id}
+```
 
-GET    /users?page=0&size=5
-GET    /users?sortBy=nama&direction=asc
-GET    /users/search?keyword=sam
-GET    /users/search?keyword=sam&page=0&size=5
+## Pagination
 
-# CONTOH REQUEST POST
+```http
+GET /users?page=0&size=5
+```
 
-{
-"nama": "Sammy",
-"umur": 25
-}
+## Sorting
 
-# CONTOH SUCCESS RESPONSE
+```http
+GET /users?sortBy=nama&direction=asc
+```
 
-{
-"message": "User created",
-"data": {
-"id": 1,
-"nama": "Sammy",
-"umur": 25
-}
-}
+## Search
 
-# CONTOH ERROR VALIDATION
+```http
+GET /users/search?keyword=sam
+```
 
-{
-"nama": "Nama wajib diisi",
-"umur": "Umur minimal 1"
-}
+---
 
-# CONTOH ERROR NOT FOUND
+# ⚙️ Cara Menjalankan Project
 
-{
-"error": "User dengan id 99 tidak ditemukan"
-}
+## 1. Clone Repository
 
-# PROGRESS LEVEL
+```bash
+git clone <repository-url>
+```
 
-Spring Boot Basic        [✓]
-REST API CRUD           [✓]
-MySQL + JPA             [✓]
-Validation              [✓]
-Exception Handling      [✓]
-DTO Pattern             [✓]
-ResponseEntity          [✓]
-Pagination              [✓]
-Sorting                 [✓]
-Search                  [✓]
+## 2. Masuk Folder Project
 
-# ROADMAP NEXT LEVEL
+```bash
+cd belajar-spring
+```
 
-[ ] Swagger OpenAPI
-[ ] Spring Security + JWT
-[ ] Unit Testing JUnit Mockito
-[ ] Docker
-[ ] Deploy VPS / Cloud
-[ ] Redis Cache
-[ ] CI/CD Pipeline
-[ ] Microservices
-[ ] AWS Deployment
-[ ] System Design
+## 3. Setup Database
 
-# CONTOH COMMIT GIT
+```sql
+CREATE DATABASE belajar_spring;
+```
 
-feat: setup spring boot project
-feat: connect mysql using jpa
-feat: create full crud users api
-feat: add validation and global exception handler
-feat: add standard api response with ResponseEntity
-feat: add pagination sorting and search for user api
-refactor: apply clean architecture package structure
+## 4. Atur application.properties
 
-docs: update readme project progress
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/belajar_spring
+spring.datasource.username=root
+spring.datasource.password=yourpassword
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+```
+
+## 5. Jalankan Project
+
+```bash
+mvn spring-boot:run
+```
+
+---
+
+# 🧪 Swagger Testing
+
+Setelah project jalan:
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+
+---
+
+# 🎯 Progress Belajar Saat Ini
+
+```text
+Spring Boot Basic        ✅
+REST API CRUD           ✅
+MySQL + JPA             ✅
+Validation              ✅
+Exception Handling      ✅
+DTO Pattern             ✅
+ResponseEntity          ✅
+Pagination              ✅
+Sorting                 ✅
+Search                  ✅
+Swagger OpenAPI         ✅
+Git Workflow            ✅
+```
+
+---
+
+# 🚀 Next Roadmap
+
+* Spring Security
+* JWT Authentication
+* Unit Testing
+* Docker
+* Deploy VPS / Cloud
+* Redis Cache
+* CI/CD Pipeline
+* Microservices
+* AWS Deployment
+
+---
+
+# 👨‍💻 Author
+
+Made with learning spirit using Java Spring Boot.
