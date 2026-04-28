@@ -33,6 +33,14 @@ public class User {
     @JsonIgnore
     private List<OrderHeader> orders;
 
+    @Column(unique = true, nullable = false)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
+    private String role;
+
     // Constructor kosong wajib JPA
     public User() {
     }
