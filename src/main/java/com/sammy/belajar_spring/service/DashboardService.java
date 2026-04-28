@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import com.sammy.belajar_spring.dto.TopCustomerResponse;
+import org.springframework.data.domain.PageRequest;
+import java.util.List;
+
 @Service
 public class DashboardService {
 
@@ -36,6 +40,13 @@ public class DashboardService {
                 totalOrders,
                 totalRevenue,
                 averageOrder
+        );
+    }
+
+    public List<TopCustomerResponse> getTopCustomers() {
+
+        return orderHeaderRepository.getTopCustomers(
+                PageRequest.of(0, 5)
         );
     }
 }
