@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,14 +29,15 @@ public interface OrderHeaderRepository
 
     // Top customer
     @Query("""
-        SELECT new com.sammy.belajar_spring.dto.TopCustomerResponse(
-            o.user.nama,
-            COUNT(o),
-            SUM(o.grandTotal)
-        )
-        FROM OrderHeader o
-        GROUP BY o.user.nama
-        ORDER BY SUM(o.grandTotal) DESC
-    """)
-    List<TopCustomerResponse> getTopCustomers();
+SELECT new com.sammy.belajar_spring.dto.TopCustomerResponse(
+    u.nama,
+    COUNT(o),
+    COALESCE(SUM(o.grandTotal),0)
+)
+FROM OrderHeader o
+JOIN o.user u
+GROUP BY u.id, u.nama
+ORDER BY COALESCE(SUM(o.grandTotal),0) DESC
+""")
+    List<TopCustomerResponse> getTopCustomers(Pageable pageable);
 }

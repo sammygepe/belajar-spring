@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 // JpaRepository<User, Long>
 // User = entity
 // Long = tipe data primary key
@@ -20,4 +22,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // IgnoreCase = tidak peduli huruf besar kecil
     // Pageable = support pagination + sorting
     Page<User> findByNamaContainingIgnoreCase(String keyword, Pageable pageable);
+
+    Optional<User> findByUsername(String username);
+    boolean existsByUsername(String username);
+
 }

@@ -14,14 +14,8 @@ public class PageResponse<T> {
     public PageResponse() {
     }
 
-    public PageResponse(
-            List<T> content,
-            int page,
-            int size,
-            long totalElements,
-            int totalPages,
-            boolean last
-    ) {
+    public PageResponse(List<T> content, int page, int size,
+                        long totalElements, int totalPages, boolean last) {
         this.content = content;
         this.page = page;
         this.size = size;
