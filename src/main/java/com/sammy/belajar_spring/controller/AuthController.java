@@ -7,6 +7,7 @@ import com.sammy.belajar_spring.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.sammy.belajar_spring.dto.LoginRequest;
 
 @RestController
 @RequestMapping("/auth")
@@ -26,6 +27,21 @@ public class AuthController {
 
         return ResponseEntity.ok(
                 new ApiResponse<>("Register success", user)
+        );
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<String>> login(
+            @Valid @RequestBody LoginRequest request
+    ) {
+
+        authService.login(request);
+
+        return ResponseEntity.ok(
+                new ApiResponse<>(
+                        "Login success",
+                        null
+                )
         );
     }
 }

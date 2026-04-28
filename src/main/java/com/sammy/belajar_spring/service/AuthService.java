@@ -5,6 +5,7 @@ import com.sammy.belajar_spring.entity.User;
 import com.sammy.belajar_spring.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.sammy.belajar_spring.dto.LoginRequest;
 
 @Service
 public class AuthService {
@@ -33,4 +34,17 @@ public class AuthService {
 
         return userRepository.save(user);
     }
+
+    public void login(LoginRequest request) {
+
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() ->
+                        new RuntimeException("Username tidak ditemukan")
+                );
+
+        if (!user.getPassword().equals(request.getPassword())) {
+            throw new RuntimeException("Password salah");
+        }
+    }
+
 }
