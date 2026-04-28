@@ -8,6 +8,9 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import java.util.List;
 
 // REST API order
@@ -105,6 +108,63 @@ public class OrderController {
                 new ApiResponse<>(
                         "Success search order",
                         orders
+                )
+        );
+    }
+
+    // GET ALL ORDERS PAGINATION
+    @GetMapping("/page")
+    public ResponseEntity<ApiResponse<PageResponse<OrderHeader>>> getOrdersPage(
+            @PageableDefault(size = 5, sort = "id")
+            Pageable pageable
+    ) {
+
+        Page<OrderHeader> result =
+                orderService.getOrders(pageable);
+
+        PageResponse<OrderHeader> pageResponse =
+                new PageResponse<>(
+                        result.getContent(),
+                        result.getNumber(),
+                        result.getSize(),
+                        result.getTotalElements(),
+                        result.getTotalPages(),
+                        result.isLast()
+                );
+
+        return ResponseEntity.ok(
+                new ApiResponse<>(
+                        "Success get paged orders",
+                        pageResponse
+                )
+        );
+    }
+
+    // SEARCH INVOICE + PAGINATION
+    @GetMapping("/search/page")
+    public ResponseEntity<ApiResponse<PageResponse<OrderHeader>>> searchOrdersPage(
+            @RequestParam String invoice,
+            @PageableDefault(size = 5, sort = "id")
+            Pageable pageable
+    ) {
+
+        Page<OrderHeader> result =
+                orderService.searchOrders(invoice, pageable);
+
+        PageResponse<OrderHeader> pageResponse =
+                new PageResponse<>(
+                        result.getContent(),
+                        result.getNumber(),
+                        result.getSize(),
+                        result.getTotalElements(),
+                        result.getTotalPages(),
+                        result.isLast()
+                );
+
+        return ResponseEntity.ok(
+                new ApiResponse<>(
+                        "Success search paged orders",
+                        pageResponse
                 )
         );
     }

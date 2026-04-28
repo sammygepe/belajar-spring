@@ -10,6 +10,8 @@ import com.sammy.belajar_spring.repository.OrderHeaderRepository;
 import com.sammy.belajar_spring.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -123,5 +125,22 @@ public class OrderService {
     public List<OrderHeader> searchByInvoice(String invoice) {
         return orderHeaderRepository
                 .findByInvoiceNoContainingIgnoreCase(invoice);
+    }
+
+    // GET ALL ORDERS PAGINATION
+    public Page<OrderHeader> getOrders(Pageable pageable) {
+        return orderHeaderRepository.findAll(pageable);
+    }
+
+    // SEARCH INVOICE PAGINATION
+    public Page<OrderHeader> searchOrders(
+            String invoiceNo,
+            Pageable pageable
+    ) {
+        return orderHeaderRepository
+                .findByInvoiceNoContainingIgnoreCase(
+                        invoiceNo,
+                        pageable
+                );
     }
 }
