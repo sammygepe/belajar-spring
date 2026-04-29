@@ -12,11 +12,14 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     public AuthService(UserRepository userRepository,
-                       BCryptPasswordEncoder passwordEncoder) {
+                       BCryptPasswordEncoder passwordEncoder,
+                       JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     public User register(RegisterRequest request) {
@@ -35,7 +38,7 @@ public class AuthService {
         return userRepository.save(user);
     }
 
-    public void login(LoginRequest request) {
+    public String login(LoginRequest request) {
 
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() ->
@@ -48,6 +51,9 @@ public class AuthService {
         )) {
             throw new RuntimeException("Password salah");
         }
+
+        return jwtService.generateToken(user.getUsername());
     }
+
 
 }

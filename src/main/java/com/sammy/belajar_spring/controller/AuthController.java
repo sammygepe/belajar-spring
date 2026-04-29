@@ -35,12 +35,12 @@ public class AuthController {
             @Valid @RequestBody LoginRequest request
     ) {
 
-        authService.login(request);
+        String token = authService.login(request);
 
         return ResponseEntity.ok(
                 new ApiResponse<>(
                         "Login success",
-                        null
+                        token
                 )
         );
     }
