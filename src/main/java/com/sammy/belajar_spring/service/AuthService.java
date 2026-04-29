@@ -42,7 +42,10 @@ public class AuthService {
                         new RuntimeException("Username tidak ditemukan")
                 );
 
-        if (!user.getPassword().equals(request.getPassword())) {
+        if (!passwordEncoder.matches(
+                request.getPassword(),
+                user.getPassword()
+        )) {
             throw new RuntimeException("Password salah");
         }
     }
