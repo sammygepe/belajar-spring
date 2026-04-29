@@ -2,53 +2,46 @@ package com.sammy.belajar_spring.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-// Menandakan ini class konfigurasi Spring
 @Configuration
 public class SecurityConfig {
 
-    // ==========================================
-    // BCrypt untuk hash password saat register
-    // dan compare password saat login
-    // ==========================================
+    private final JwtFilter jwtFilter;
+
+    public SecurityConfig(JwtFilter jwtFilter) {
+        this.jwtFilter = jwtFilter;
+    }
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // ==========================================
-    // Konfigurasi security endpoint
-    // ==========================================
     @Bean
-    public SecurityFilterChain security(HttpSecurity http) throws Exception {
+    public SecurityFilterChain security(
+            HttpSecurity http
+    ) throws Exception {
 
         http
-                // Disable csrf karena project kita REST API
                 .csrf(csrf -> csrf.disable())
 
-                // Atur hak akses endpoint
                 .authorizeHttpRequests(auth -> auth
-
-                        // Endpoint auth bebas akses
-                        .requestMatchers("/auth/**").permitAll()
-
-                        // Swagger bebas akses
                         .requestMatchers(
+                                "/auth/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**"
                         ).permitAll()
-
-                        // Endpoint lain wajib login
                         .anyRequest().authenticated()
                 )
 
-                // Sementara pakai basic auth bawaan Spring
-                // Nanti akan diganti JWT Filter
-                .httpBasic(Customizer.withDefaults());
+                .addFilterBefore(
+                        jwtFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                );
 
         return http.build();
     }
