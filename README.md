@@ -1,7 +1,7 @@
-# Belajar Spring Boot API 🚀
+# Belajar Spring Boot REST API
 
-Project backend REST API menggunakan **Java 17 + Spring Boot + Spring Data JPA + MySQL**.  
-Dibuat sebagai media belajar serius menuju **Backend Developer Java Spring Boot** dengan fitur real-world seperti transaksi order, dashboard, pagination, dan analytics sederhana.
+Project latihan backend menggunakan **Java Spring Boot**, **MySQL**, dan **Spring Data JPA**.  
+Project ini berkembang dari CRUD dasar menjadi backend dengan fitur authentication, dashboard, pagination, dan JWT login.
 
 ---
 
@@ -11,238 +11,160 @@ Dibuat sebagai media belajar serius menuju **Backend Developer Java Spring Boot*
 - Spring Boot 3
 - Spring Web
 - Spring Data JPA
-- Hibernate
+- Spring Validation
+- Spring Security (BCrypt)
+- JWT (JJWT)
 - MySQL
 - Maven
-- Swagger OpenAPI
-- IntelliJ IDEA
-- Postman
-- Git
 
 ---
 
-# 📦 Features
+# 📦 Fitur Saat Ini
 
-# 👤 User Module
+## ✅ User
 
-## ✅ CRUD User
+- Register user
+- Login user
+- Password di-hash BCrypt
+- JWT token saat login
 
-- Create User
-- Get All Users
-- Get User By ID
-- Update User
-- Delete User
+## ✅ Order
 
-## ✅ Validation
-
-Menggunakan Bean Validation:
-
-- Nama wajib diisi
-- Umur minimal 1
-
----
-
-# 🧾 Order Module (Header - Detail)
-
-Simulasi transaksi invoice sederhana.
-
-## Order Header
-
-- Invoice No
-- Order Date
-- User
-- Grand Total
-
-## Order Detail
-
-- Item Name
-- Qty
-- Price
-- Subtotal
-
-## ✅ Fitur Order
-
-- Create Order banyak item
-- Auto hitung subtotal
-- Auto hitung grand total
+- Create Order
+- Multi Item Order Detail
 - Get All Orders
 - Get Order By ID
 - Delete Order
 - Search Invoice
 
+## ✅ Pagination
+
+- List order pagination
+- Search invoice + pagination
+
+## ✅ Dashboard
+
+- Total Orders
+- Total Revenue
+- Average Order
+- Top Customers
+
+## ✅ Global Handling
+
+- Validation error response
+- Custom exception response
+- Clean JSON API response
+
 ---
 
-# 📄 Pagination + Sorting
+# 📁 Struktur Project
 
-✅ Order Pagination
-GET /orders/page?page=0&size=5&sort=id,desc
+src/main/java/com/sammy/belajar_spring
+├── controller
+├── service
+├── repository
+├── entity
+├── dto
+├── config
+└── exception
 
-✅ Search + Pagination
-GET /orders/search/page?invoice=INV&page=0&size=5
 
-📊 Dashboard Summary
-Menampilkan ringkasan bisnis sederhana.
+🔐 Authentication
 
-✅ Endpoint
-GET /orders/dashboard
+Register
+POST /auth/register
+
+Request
+{
+  "nama": "Sammy",
+  "umur": 25,
+  "username": "sammy",
+  "password": "123456"
+}
+
+Login
+POST /auth/login
+
+Request
+{
+  "username": "sammy",
+  "password": "123456"
+}
+
 Response
 {
-  "message": "Success dashboard",
-  "data": {
-    "totalOrders": 3,
-    "totalRevenue": 1500000
-  }
+  "message": "Login success",
+  "data": "jwt_token_here"
 }
 
 
-🏆 Top Customer
-Menampilkan customer dengan transaksi terbesar.
+📦 Order API
 
-Endpoint
-GET /orders/top-customers
-Response
+Create Order
+POST /orders
 {
-  "message": "Success get top customers",
-  "data": [
+  "invoiceNo": "INV001",
+  "orderDate": "2026-04-01",
+  "userId": 1,
+  "details": [
     {
-      "customerName": "Sammy",
-      "totalOrders": 2,
-      "totalAmount": 2500000
+      "itemName": "Laptop",
+      "qty": 1,
+      "price": 12000000
+    },
+    {
+      "itemName": "Mouse",
+      "qty": 2,
+      "price": 150000
     }
   ]
 }
 
-
-🛡️ Global Exception Handler
-Menampilkan response error rapi.
-
-Contoh Validation Error
-{
-  "message": "Validation failed",
-  "data": {
-    "nama": "Nama wajib diisi"
-  }
-}
-Contoh Not Found
-{
-  "message": "User id 99 tidak ditemukan",
-  "data": null
-}
-
-
-📁 Project Structure
-src/main/java/com/sammy/belajar_spring/
-
-├── controller
-│   ├── UserController.java
-│   └── OrderController.java
-
-├── service
-│   ├── UserService.java
-│   └── OrderService.java
-
-├── repository
-│   ├── UserRepository.java
-│   ├── OrderHeaderRepository.java
-│   └── OrderDetailRepository.java
-
-├── entity
-│   ├── User.java
-│   ├── OrderHeader.java
-│   └── OrderDetail.java
-
-├── dto
-│   ├── ApiResponse.java
-│   ├── CreateOrderRequest.java
-│   ├── CreateOrderDetailRequest.java
-│   ├── DashboardResponse.java
-│   ├── TopCustomerResponse.java
-│   └── PageResponse.java
-
-├── exception
-│   ├── GlobalExceptionHandler.java
-│   └── UserNotFoundException.java
-
-
-🔥 API Endpoints
-
-User
-GET    /users
-GET    /users/{id}
-POST   /users
-PUT    /users/{id}
-DELETE /users/{id}
-
-Order
-GET    /orders
-GET    /orders/{id}
-POST   /orders
+Get Orders
+GET /orders
+Get Order By ID
+GET /orders/{id}
+Delete Order
 DELETE /orders/{id}
-Search
+Search Invoice
 GET /orders/search?invoice=INV001
-Pagination
+
+📄 Pagination
+Orders Pagination
 GET /orders/page?page=0&size=5
-GET /orders/page?page=0&size=5&sort=id,desc
-Dashboard
-GET /orders/dashboard
-Top Customer
-GET /orders/top-customers
+Search + Pagination
+GET /orders/search/page?invoice=INV&page=0&size=5
+
+📊 Dashboard
+Summary
+GET /dashboard/summary
+
+Response:
+{
+  "totalOrders": 10,
+  "totalRevenue": 25000000,
+  "averageOrder": 2500000
+}
+
+Top Customers
+GET /dashboard/top-customers
 
 
-⚙️ Cara Menjalankan Project
-1. Clone Repository
-git clone <repository-url>
-2. Masuk Folder Project
-cd belajar-spring
-3. Setup Database
-CREATE DATABASE belajar_spring;
-4. Atur application.properties
-spring.datasource.url=jdbc:mysql://localhost:3306/belajar_spring
-spring.datasource.username=root
-spring.datasource.password=yourpassword
-
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-5. Jalankan Project
-mvn spring-boot:run
+🧱 JSON Response Format
+{
+  "message": "Success",
+  "data": {}
+}
 
 
-🧪 Swagger Testing
-Setelah project jalan:
+🔐 Password Security
+Password user disimpan menggunakan:
+BCryptPasswordEncoder
+
+
+🧪 Swagger
 http://localhost:8080/swagger-ui/index.html
 
 
-🎯 Progress Belajar Saat Ini
-Spring Boot Basic       ✅
-REST API CRUD           ✅
-MySQL + JPA             ✅
-Validation              ✅
-Exception Handling      ✅
-DTO Pattern             ✅
-ResponseEntity          ✅
-Order Header Detail     ✅
-Pagination              ✅
-Sorting                 ✅
-Search                  ✅
-Dashboard Summary       ✅
-Top Customer            ✅
-Swagger OpenAPI         ✅
-Git Workflow            ✅
-
-
-🚀 Next Roadmap
-JWT Authentication
-Role USER / ADMIN
-Product Management
-Stock Management
-Unit Testing
-Docker
-Deploy VPS / Cloud
-Redis Cache
-CI/CD Pipeline
-Microservices
-AWS Deployment
-
-
 👨‍💻 Author
-Made with learning spirit using Java Spring Boot 🚀
+Learning project by Sammy 🚀
