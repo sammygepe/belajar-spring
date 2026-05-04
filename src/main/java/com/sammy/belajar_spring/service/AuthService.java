@@ -52,8 +52,8 @@ public class AuthService {
             throw new RuntimeException("Password salah");
         }
 
-        return jwtService.generateToken(user.getUsername());
-    }
-
-
+        return jwtService.generateToken(
+                user.getUsername(),
+                user.getRole()
+        );    }
 }
