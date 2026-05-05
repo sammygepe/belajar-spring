@@ -3,78 +3,116 @@ package com.sammy.belajar_spring.config;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-// Konfigurasi security utama
+/**
+ * 🔐 Security Configuration (JWT + RBAC)
+ *
+ * Mengatur:
+ * - Authentication (JWT)
+ * - Authorization (ROLE USER / ADMIN)
+ * - Stateless session
+ * - Endpoint protection
+ */
 @Configuration
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
 
+    // Constructor Injection untuk JWT Filter
     public SecurityConfig(JwtFilter jwtFilter) {
         this.jwtFilter = jwtFilter;
     }
 
     // ==========================================
-    // Password encoder (dipakai di AuthService)
+    // 🔑 PASSWORD ENCODER
     // ==========================================
+    // Digunakan untuk hashing password (BCrypt)
+    // Dipakai di AuthService saat register & login
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     // ==========================================
-    // Security rules + JWT filter
+    // 🔐 MAIN SECURITY CONFIG
     // ==========================================
     @Bean
     public SecurityFilterChain security(HttpSecurity http) throws Exception {
 
         http
-                // REST API → csrf tidak dipakai
+
+                // ==========================================
+                // ❌ Disable CSRF (karena kita pakai REST API)
+                // ==========================================
                 .csrf(csrf -> csrf.disable())
 
-                // ❗ penting: stateless (tidak pakai session)
+                // ==========================================
+                // ❗ Stateless session (tidak pakai session)
+                // Semua auth pakai JWT
+                // ==========================================
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
-                // Atur endpoint mana yang bebas / butuh login
+                // ==========================================
+                // 🔥 AUTHORIZATION RULES (RBAC)
+                // ==========================================
                 .authorizeHttpRequests(auth -> auth
-                        // Auth bebas akses
+
+                        // ✅ Endpoint bebas akses (login & register)
                         .requestMatchers("/auth/**").permitAll()
 
-                        // Swagger bebas
+                        // ✅ Swagger UI bebas akses
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**"
                         ).permitAll()
 
-                        // selain itu wajib login (JWT)
+                        // ✅ USER & ADMIN boleh akses orders
+                        .requestMatchers("/orders/**")
+                        .hasAnyRole("USER", "ADMIN")
+
+                        // 🔒 Hanya ADMIN boleh akses
+                        .requestMatchers("/admin/**")
+                        .hasRole("ADMIN")
+
+                        // 🔐 Selain itu wajib login
                         .anyRequest().authenticated()
                 )
 
-                // ❗ inject JWT filter sebelum filter bawaan Spring
+                // ==========================================
+                // 🔥 JWT FILTER
+                // ==========================================
+                // Dijalankan sebelum filter bawaan Spring
                 .addFilterBefore(
                         jwtFilter,
                         UsernamePasswordAuthenticationFilter.class
                 )
 
-        .exceptionHandling(ex -> ex
-                .authenticationEntryPoint((request, response, authException) -> {
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    response.setContentType("application/json");
-                    response.getWriter().write("""
-            {
-                "message": "Unauthorized",
-                "data": null
-            }
-        """);
-                })
-        );
+                // ==========================================
+                // ❌ HANDLE UNAUTHORIZED (401)
+                // ==========================================
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, authException) -> {
+
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json");
+
+                            response.getWriter().write("""
+                        {
+                            "message": "Unauthorized",
+                            "data": null
+                        }
+                    """);
+                        })
+                );
 
         return http.build();
     }
