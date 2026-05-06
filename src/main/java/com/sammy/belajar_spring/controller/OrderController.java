@@ -2,7 +2,7 @@ package com.sammy.belajar_spring.controller;
 
 import com.sammy.belajar_spring.dto.ApiResponse;
 import com.sammy.belajar_spring.dto.CreateOrderRequest;
-import com.sammy.belajar_spring.dto.OrderResponse; // ✅ DTO
+import com.sammy.belajar_spring.dto.OrderResponse;
 import com.sammy.belajar_spring.dto.PageResponse;
 
 import com.sammy.belajar_spring.service.OrderService;
@@ -19,12 +19,24 @@ import org.springframework.data.web.PageableDefault;
 
 import java.util.List;
 
+/**
+ * 🎯 OrderController
+ *
+ * Berfungsi sebagai layer API (entry point dari client)
+ * - Menerima request dari client (Postman / Frontend)
+ * - Mengirim ke service untuk diproses
+ * - Mengembalikan response dalam bentuk JSON (ApiResponse)
+ *
+ * ❗ Controller TIDAK boleh berisi business logic
+ */
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
 
+    // Service untuk handle business logic
     private final OrderService orderService;
 
+    // Constructor Injection (best practice Spring)
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
@@ -34,12 +46,17 @@ public class OrderController {
     // ==========================================
     @PostMapping
     public ResponseEntity<ApiResponse<OrderResponse>> createOrder(
+
+            // 🔥 @Valid → trigger validation dari DTO
+            // 🔥 @RequestBody → ambil JSON dari request
             @Valid @RequestBody CreateOrderRequest request
     ) {
 
+        // Kirim request DTO ke service
         OrderResponse savedOrder =
-                orderService.createOrder(request); // ✅ sudah DTO
+                orderService.createOrder(request);
 
+        // Return HTTP 201 (Created)
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new ApiResponse<>(
                         "Order created successfully",
@@ -48,11 +65,12 @@ public class OrderController {
     }
 
     // ==========================================
-    // GET ALL
+    // GET ALL ORDERS
     // ==========================================
     @GetMapping
     public ResponseEntity<ApiResponse<List<OrderResponse>>> getAllOrders() {
 
+        // Ambil semua data (sudah dalam bentuk DTO)
         List<OrderResponse> orders =
                 orderService.getAllOrders();
 
@@ -62,10 +80,12 @@ public class OrderController {
     }
 
     // ==========================================
-    // GET BY ID
+    // GET ORDER BY ID
     // ==========================================
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<OrderResponse>> getOrderById(
+
+            // Ambil path variable dari URL
             @PathVariable Long id
     ) {
 
@@ -78,13 +98,14 @@ public class OrderController {
     }
 
     // ==========================================
-    // DELETE
+    // DELETE ORDER
     // ==========================================
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<String>> deleteOrder(
             @PathVariable Long id
     ) {
 
+        // Hapus data
         orderService.deleteOrder(id);
 
         return ResponseEntity.ok(
@@ -93,10 +114,12 @@ public class OrderController {
     }
 
     // ==========================================
-    // SEARCH
+    // SEARCH ORDER BY INVOICE
     // ==========================================
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<List<OrderResponse>>> searchOrder(
+
+            // Ambil query param: /orders/search?invoice=INV
             @RequestParam String invoice
     ) {
 
@@ -109,25 +132,39 @@ public class OrderController {
     }
 
     // ==========================================
-    // PAGINATION
+    // PAGINATION (GET ALL)
     // ==========================================
     @GetMapping("/page")
     public ResponseEntity<ApiResponse<PageResponse<OrderResponse>>> getOrdersPage(
+
+            /**
+             * Pageable:
+             * - size = jumlah data per halaman
+             * - sort = sorting berdasarkan field
+             *
+             * Contoh:
+             * /orders/page?page=0&size=5
+             */
             @PageableDefault(size = 5, sort = "id")
             Pageable pageable
     ) {
 
+        // Ambil data dalam bentuk Page
         Page<OrderResponse> result =
                 orderService.getOrders(pageable);
 
+        /**
+         * Convert Page → Custom PageResponse
+         * supaya JSON lebih clean & mudah dipakai frontend
+         */
         PageResponse<OrderResponse> pageResponse =
                 new PageResponse<>(
-                        result.getContent(),
-                        result.getNumber(),
-                        result.getSize(),
-                        result.getTotalElements(),
-                        result.getTotalPages(),
-                        result.isLast()
+                        result.getContent(),       // isi data
+                        result.getNumber(),        // halaman saat ini
+                        result.getSize(),          // jumlah per halaman
+                        result.getTotalElements(), // total data
+                        result.getTotalPages(),    // total halaman
+                        result.isLast()            // apakah halaman terakhir
                 );
 
         return ResponseEntity.ok(
@@ -141,13 +178,16 @@ public class OrderController {
     @GetMapping("/search/page")
     public ResponseEntity<ApiResponse<PageResponse<OrderResponse>>> searchOrdersPage(
             @RequestParam String invoice,
+
             @PageableDefault(size = 5, sort = "id")
             Pageable pageable
     ) {
 
+        // Ambil hasil search dalam bentuk page
         Page<OrderResponse> result =
                 orderService.searchOrders(invoice, pageable);
 
+        // Mapping ke PageResponse
         PageResponse<OrderResponse> pageResponse =
                 new PageResponse<>(
                         result.getContent(),

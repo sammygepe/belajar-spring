@@ -1,62 +1,62 @@
 package com.sammy.belajar_spring.dto;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.util.List;
 
-// DTO create order header
+/**
+ * DTO untuk menerima request dari client saat membuat order
+ */
 public class CreateOrderRequest {
 
-    // User id wajib ada
-    @NotNull(message = "User wajib dipilih")
+    // ID user wajib ada (untuk relasi ke user)
+    @NotNull(message = "User ID tidak boleh kosong")
     private Long userId;
 
-    // Nomor invoice
-    @NotNull(message = "Invoice wajib diisi")
+    // Invoice wajib diisi
+    @NotBlank(message = "Invoice tidak boleh kosong")
     private String invoiceNo;
 
-    // Tanggal order
-    @NotNull(message = "Tanggal wajib diisi")
+    // Tanggal order wajib diisi
+    @NotNull(message = "Tanggal order tidak boleh kosong")
     private LocalDate orderDate;
 
     // Minimal 1 item
-    @Valid
-    @NotEmpty(message = "Detail order wajib ada")
+    @Size(min = 1, message = "Minimal 1 item")
     private List<CreateOrderDetailRequest> details;
 
-    // Getter Setter
-    public Long getUserId() {
+    public @NotNull(message = "User ID tidak boleh kosong") Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(@NotNull(message = "User ID tidak boleh kosong") Long userId) {
         this.userId = userId;
     }
 
-    public String getInvoiceNo() {
+    public @NotBlank(message = "Invoice tidak boleh kosong") String getInvoiceNo() {
         return invoiceNo;
     }
 
-    public void setInvoiceNo(String invoiceNo) {
+    public void setInvoiceNo(@NotBlank(message = "Invoice tidak boleh kosong") String invoiceNo) {
         this.invoiceNo = invoiceNo;
     }
 
-    public LocalDate getOrderDate() {
+    public @NotNull(message = "Tanggal order tidak boleh kosong") LocalDate getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(LocalDate orderDate) {
+    public void setOrderDate(@NotNull(message = "Tanggal order tidak boleh kosong") LocalDate orderDate) {
         this.orderDate = orderDate;
     }
 
-    public List<CreateOrderDetailRequest> getDetails() {
+    public @Size(min = 1, message = "Minimal 1 item") List<CreateOrderDetailRequest> getDetails() {
         return details;
     }
 
-    public void setDetails(List<CreateOrderDetailRequest> details) {
+    public void setDetails(@Size(min = 1, message = "Minimal 1 item") List<CreateOrderDetailRequest> details) {
         this.details = details;
     }
 }
