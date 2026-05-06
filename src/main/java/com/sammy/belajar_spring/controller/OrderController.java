@@ -2,85 +2,84 @@ package com.sammy.belajar_spring.controller;
 
 import com.sammy.belajar_spring.dto.ApiResponse;
 import com.sammy.belajar_spring.dto.CreateOrderRequest;
-import com.sammy.belajar_spring.entity.OrderHeader;
+import com.sammy.belajar_spring.dto.OrderResponse; // ✅ DTO
+import com.sammy.belajar_spring.dto.PageResponse;
+
 import com.sammy.belajar_spring.service.OrderService;
+
 import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+
 import java.util.List;
-import com.sammy.belajar_spring.dto.PageResponse;
 
-// REST API order
 @RestController
-
-// Base URL
 @RequestMapping("/orders")
 public class OrderController {
 
     private final OrderService orderService;
 
-    // Constructor Injection
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
 
+    // ==========================================
     // CREATE ORDER
+    // ==========================================
     @PostMapping
-    public ResponseEntity<ApiResponse<OrderHeader>> createOrder(
+    public ResponseEntity<ApiResponse<OrderResponse>> createOrder(
             @Valid @RequestBody CreateOrderRequest request
     ) {
 
-        // Panggil service
-        OrderHeader savedOrder =
-                orderService.createOrder(request);
+        OrderResponse savedOrder =
+                orderService.createOrder(request); // ✅ sudah DTO
 
-        // Return response JSON
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(
-                        new ApiResponse<>(
-                                "Order created successfully",
-                                savedOrder
-                        )
-                );
+                .body(new ApiResponse<>(
+                        "Order created successfully",
+                        savedOrder
+                ));
     }
 
-    // GET ALL ORDERS
+    // ==========================================
+    // GET ALL
+    // ==========================================
     @GetMapping
-    public ResponseEntity<ApiResponse<List<OrderHeader>>> getAllOrders() {
+    public ResponseEntity<ApiResponse<List<OrderResponse>>> getAllOrders() {
 
-        List<OrderHeader> orders =
+        List<OrderResponse> orders =
                 orderService.getAllOrders();
 
         return ResponseEntity.ok(
-                new ApiResponse<>(
-                        "Success get orders",
-                        orders
-                )
+                new ApiResponse<>("Success get orders", orders)
         );
     }
 
-    // GET ORDER BY ID
+    // ==========================================
+    // GET BY ID
+    // ==========================================
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<OrderHeader>> getOrderById(
+    public ResponseEntity<ApiResponse<OrderResponse>> getOrderById(
             @PathVariable Long id
     ) {
 
-        OrderHeader order =
+        OrderResponse order =
                 orderService.getOrderById(id);
 
         return ResponseEntity.ok(
-                new ApiResponse<>(
-                        "Success get order",
-                        order
-                )
+                new ApiResponse<>("Success get order", order)
         );
     }
 
-    // DELETE ORDER
+    // ==========================================
+    // DELETE
+    // ==========================================
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<String>> deleteOrder(
             @PathVariable Long id
@@ -89,41 +88,39 @@ public class OrderController {
         orderService.deleteOrder(id);
 
         return ResponseEntity.ok(
-                new ApiResponse<>(
-                        "Order deleted successfully",
-                        null
-                )
+                new ApiResponse<>("Order deleted successfully", null)
         );
     }
 
-    // SEARCH ORDER BY INVOICE
+    // ==========================================
+    // SEARCH
+    // ==========================================
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse<List<OrderHeader>>> searchOrder(
+    public ResponseEntity<ApiResponse<List<OrderResponse>>> searchOrder(
             @RequestParam String invoice
     ) {
 
-        List<OrderHeader> orders =
+        List<OrderResponse> orders =
                 orderService.searchByInvoice(invoice);
 
         return ResponseEntity.ok(
-                new ApiResponse<>(
-                        "Success search order",
-                        orders
-                )
+                new ApiResponse<>("Success search order", orders)
         );
     }
 
-    // GET ALL ORDERS PAGINATION
+    // ==========================================
+    // PAGINATION
+    // ==========================================
     @GetMapping("/page")
-    public ResponseEntity<ApiResponse<PageResponse<OrderHeader>>> getOrdersPage(
+    public ResponseEntity<ApiResponse<PageResponse<OrderResponse>>> getOrdersPage(
             @PageableDefault(size = 5, sort = "id")
             Pageable pageable
     ) {
 
-        Page<OrderHeader> result =
+        Page<OrderResponse> result =
                 orderService.getOrders(pageable);
 
-        PageResponse<OrderHeader> pageResponse =
+        PageResponse<OrderResponse> pageResponse =
                 new PageResponse<>(
                         result.getContent(),
                         result.getNumber(),
@@ -134,25 +131,24 @@ public class OrderController {
                 );
 
         return ResponseEntity.ok(
-                new ApiResponse<>(
-                        "Success get paged orders",
-                        pageResponse
-                )
+                new ApiResponse<>("Success get paged orders", pageResponse)
         );
     }
 
-    // SEARCH INVOICE + PAGINATION
+    // ==========================================
+    // SEARCH + PAGINATION
+    // ==========================================
     @GetMapping("/search/page")
-    public ResponseEntity<ApiResponse<PageResponse<OrderHeader>>> searchOrdersPage(
+    public ResponseEntity<ApiResponse<PageResponse<OrderResponse>>> searchOrdersPage(
             @RequestParam String invoice,
             @PageableDefault(size = 5, sort = "id")
             Pageable pageable
     ) {
 
-        Page<OrderHeader> result =
+        Page<OrderResponse> result =
                 orderService.searchOrders(invoice, pageable);
 
-        PageResponse<OrderHeader> pageResponse =
+        PageResponse<OrderResponse> pageResponse =
                 new PageResponse<>(
                         result.getContent(),
                         result.getNumber(),
@@ -163,10 +159,7 @@ public class OrderController {
                 );
 
         return ResponseEntity.ok(
-                new ApiResponse<>(
-                        "Success search paged orders",
-                        pageResponse
-                )
+                new ApiResponse<>("Success search paged orders", pageResponse)
         );
     }
 }

@@ -2,6 +2,7 @@ package com.sammy.belajar_spring.service;
 
 import com.sammy.belajar_spring.dto.CreateOrderDetailRequest;
 import com.sammy.belajar_spring.dto.CreateOrderRequest;
+import com.sammy.belajar_spring.dto.OrderResponse;
 import com.sammy.belajar_spring.entity.OrderDetail;
 import com.sammy.belajar_spring.entity.OrderHeader;
 import com.sammy.belajar_spring.entity.User;
@@ -34,7 +35,7 @@ public class OrderService {
     // Transaction:
     // jika salah satu gagal, semua dibatalkan
     @Transactional
-    public OrderHeader createOrder(CreateOrderRequest request) {
+    public OrderResponse createOrder(CreateOrderRequest request) {
 
         // Cari user berdasarkan id
         User user = userRepository.findById(request.getUserId())
@@ -89,21 +90,27 @@ public class OrderService {
 
         // Save header
         // detail ikut save otomatis (cascade)
-        return orderHeaderRepository.save(header);
+        // return orderHeaderRepository.save(header);
+        OrderHeader saved = orderHeaderRepository.save(header);
+        return mapToResponse(saved);
     }
 
     // Ambil semua order
-    public List<OrderHeader> getAllOrders() {
-        return orderHeaderRepository.findAll();
+    public List<OrderResponse> getAllOrders() {
+        return orderHeaderRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 
     // Ambil order by id
-    public OrderHeader getOrderById(Long id) {
-        return orderHeaderRepository.findById(id)
+    public OrderResponse getOrderById(Long id) {
+        OrderHeader order = orderHeaderRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException(
-                                "Order id " + id + " tidak ditemukan"
-                        ));
+                        new RuntimeException("Order id " + id + " tidak ditemukan")
+                );
+
+        return mapToResponse(order);
     }
 
     // DELETE ORDER
@@ -122,25 +129,34 @@ public class OrderService {
     }
 
     // SEARCH BY INVOICE
-    public List<OrderHeader> searchByInvoice(String invoice) {
+    public List<OrderResponse> searchByInvoice(String invoice) {
         return orderHeaderRepository
-                .findByInvoiceNoContainingIgnoreCase(invoice);
+                .findByInvoiceNoContainingIgnoreCase(invoice)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 
     // GET ALL ORDERS PAGINATION
-    public Page<OrderHeader> getOrders(Pageable pageable) {
-        return orderHeaderRepository.findAll(pageable);
+    public Page<OrderResponse> getOrders(Pageable pageable) {
+        return orderHeaderRepository
+                .findAll(pageable)
+                .map(this::mapToResponse);
     }
 
     // SEARCH INVOICE PAGINATION
-    public Page<OrderHeader> searchOrders(
-            String invoiceNo,
-            Pageable pageable
-    ) {
+    public Page<OrderResponse> searchOrders(String invoiceNo, Pageable pageable) {
         return orderHeaderRepository
-                .findByInvoiceNoContainingIgnoreCase(
-                        invoiceNo,
-                        pageable
-                );
+                .findByInvoiceNoContainingIgnoreCase(invoiceNo, pageable)
+                .map(this::mapToResponse);
+    }
+
+    private OrderResponse mapToResponse(OrderHeader order) {
+        return new OrderResponse(
+                order.getId(),
+                order.getInvoiceNo(),                // ✅ FIX
+                order.getUser().getNama(),           // ✅ ambil dari user
+                order.getGrandTotal()                // ✅ FIX
+        );
     }
 }
