@@ -77,7 +77,7 @@ public class GlobalExceptionHandler {
             Exception ex
     ) {
 
-        log.error("System error", ex); // 🔥 proper logging
+        log.error("System error: {}", ex.getMessage(), ex); // 🔥 proper logging
 
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
