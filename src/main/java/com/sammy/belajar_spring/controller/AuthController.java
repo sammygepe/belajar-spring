@@ -138,8 +138,8 @@ public class AuthController {
     }
 
     // ==========================================
-// LOGOUT
-// ==========================================
+    // LOGOUT
+    // ==========================================
     @PostMapping("/logout")
     public ResponseEntity<ApiResponse<String>> logout(
 
@@ -148,9 +148,21 @@ public class AuthController {
     ) {
 
         /**
-         * Format:
+         * Validasi format header
+         *
+         * Harus:
          * Bearer xxxxx
          */
+        if (
+                authHeader == null ||
+                        !authHeader.startsWith("Bearer ")
+        ) {
+            throw new RuntimeException(
+                    "Invalid authorization header"
+            );
+        }
+
+        // Ambil token tanpa kata "Bearer "
         String token =
                 authHeader.substring(7);
 
