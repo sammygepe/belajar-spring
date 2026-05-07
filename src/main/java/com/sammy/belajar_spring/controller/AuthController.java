@@ -7,6 +7,7 @@ import com.sammy.belajar_spring.entity.User;
 
 import com.sammy.belajar_spring.service.AuthService;
 import com.sammy.belajar_spring.service.JwtService;
+import com.sammy.belajar_spring.service.TokenBlacklistService;
 
 import jakarta.validation.Valid;
 
@@ -33,13 +34,18 @@ public class AuthController {
     // Service JWT
     private final JwtService jwtService;
 
+    // Token Blacklist
+    private final TokenBlacklistService tokenBlacklistService;
+
     // Constructor Injection
     public AuthController(
             AuthService authService,
-            JwtService jwtService
+            JwtService jwtService,
+            TokenBlacklistService tokenBlacklistService
     ) {
         this.authService = authService;
         this.jwtService = jwtService;
+        this.tokenBlacklistService = tokenBlacklistService;
     }
 
     // ==========================================
@@ -127,6 +133,34 @@ public class AuthController {
                 new ApiResponse<>(
                         "Success refresh token",
                         newAccessToken
+                )
+        );
+    }
+
+    // ==========================================
+// LOGOUT
+// ==========================================
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<String>> logout(
+
+            // Ambil Authorization header
+            @RequestHeader("Authorization") String authHeader
+    ) {
+
+        /**
+         * Format:
+         * Bearer xxxxx
+         */
+        String token =
+                authHeader.substring(7);
+
+        // Masukkan token ke blacklist
+        tokenBlacklistService.blacklistToken(token);
+
+        return ResponseEntity.ok(
+                new ApiResponse<>(
+                        "Logout success",
+                        null
                 )
         );
     }

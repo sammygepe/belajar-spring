@@ -1,6 +1,8 @@
 package com.sammy.belajar_spring.config;
 
 import com.sammy.belajar_spring.service.JwtService;
+import com.sammy.belajar_spring.service.TokenBlacklistService;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,9 +23,14 @@ import java.util.List;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
+    private final TokenBlacklistService tokenBlacklistService;
 
-    public JwtFilter(JwtService jwtService) {
+    public JwtFilter(
+            JwtService jwtService,
+            TokenBlacklistService tokenBlacklistService
+    ) {
         this.jwtService = jwtService;
+        this.tokenBlacklistService = tokenBlacklistService;
     }
 
     @Override
@@ -42,8 +49,10 @@ public class JwtFilter extends OncePerRequestFilter {
             String token = authHeader.substring(7);
 
             // validasi token
-            if (jwtService.isValid(token)) {
-
+            if (
+                    jwtService.isValid(token)
+                            && !tokenBlacklistService.isBlacklisted(token)
+            ) {
                 // ambil username & role dari token
                 String username = jwtService.extractUsername(token);
                 String role = jwtService.extractRole(token);
