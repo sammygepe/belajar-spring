@@ -7,6 +7,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.sammy.belajar_spring.dto.LoginRequest;
 
+import java.util.Map;
+import java.util.HashMap;
+
 @Service
 public class AuthService {
 
@@ -38,13 +41,18 @@ public class AuthService {
         return userRepository.save(user);
     }
 
-    public String login(LoginRequest request) {
+    /**
+     * 🔐 LOGIN
+     * return access + refresh token
+     */
+    public Map<String, String> login(LoginRequest request) {
 
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() ->
                         new RuntimeException("Username tidak ditemukan")
                 );
 
+        // cek password
         if (!passwordEncoder.matches(
                 request.getPassword(),
                 user.getPassword()
@@ -52,8 +60,23 @@ public class AuthService {
             throw new RuntimeException("Password salah");
         }
 
-        return jwtService.generateToken(
-                user.getUsername(),
-                user.getRole()
-        );    }
+        // generate token
+        String accessToken =
+                jwtService.generateAccessToken(
+                        user.getUsername(),
+                        user.getRole()
+                );
+
+        String refreshToken =
+                jwtService.generateRefreshToken(
+                        user.getUsername()
+                );
+
+        // return ke client
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("accessToken", accessToken);
+        tokens.put("refreshToken", refreshToken);
+
+        return tokens;
+    }
 }
