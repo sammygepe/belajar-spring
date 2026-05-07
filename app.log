@@ -1461,3 +1461,94 @@ This generated password is for development use only. Your security configuration
 2026-05-07T15:01:08.092+07:00  INFO 14988 --- [belajar-spring] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
 2026-05-07T15:01:08.096+07:00  INFO 14988 --- [belajar-spring] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
 2026-05-07T15:01:08.164+07:00  INFO 14988 --- [belajar-spring] [main] c.s.b.controller.AuthControllerTest      : Started AuthControllerTest in 5.259 seconds (process running for 7.939)
+2026-05-07T15:38:59.662+07:00  INFO 19840 --- [belajar-spring] [main] c.s.b.integration.AuthIntegrationTest    : Starting AuthIntegrationTest using Java 17.0.18 with PID 19840 (started by IT in C:\Users\IT\IdeaProjects\belajar-spring)
+2026-05-07T15:38:59.683+07:00 DEBUG 19840 --- [belajar-spring] [main] c.s.b.integration.AuthIntegrationTest    : Running with Spring Boot v3.5.13, Spring v6.2.17
+2026-05-07T15:38:59.684+07:00  INFO 19840 --- [belajar-spring] [main] c.s.b.integration.AuthIntegrationTest    : The following 1 profile is active: "test"
+2026-05-07T15:39:08.099+07:00  INFO 19840 --- [belajar-spring] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-07T15:39:08.311+07:00  INFO 19840 --- [belajar-spring] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 162 ms. Found 3 JPA repository interfaces.
+2026-05-07T15:39:10.296+07:00  INFO 19840 --- [belajar-spring] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-07T15:39:10.517+07:00  INFO 19840 --- [belajar-spring] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.45.Final
+2026-05-07T15:39:10.610+07:00  INFO 19840 --- [belajar-spring] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-07T15:39:11.673+07:00  INFO 19840 --- [belajar-spring] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-07T15:39:11.922+07:00  INFO 19840 --- [belajar-spring] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-07T15:39:17.214+07:00  INFO 19840 --- [belajar-spring] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@14b5325f
+2026-05-07T15:39:17.222+07:00  INFO 19840 --- [belajar-spring] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-07T15:39:21.980+07:00  INFO 19840 --- [belajar-spring] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.45
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-07T15:39:22.066+07:00 DEBUG 19840 --- [belajar-spring] [main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(12, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@213ceb4e) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@23c72128)
+2026-05-07T15:39:22.066+07:00 DEBUG 19840 --- [belajar-spring] [main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(-9, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@2bd2430f) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@2890e479)
+2026-05-07T15:39:22.067+07:00 DEBUG 19840 --- [belajar-spring] [main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(-3, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@6eb00cbe) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@74e4be21)
+2026-05-07T15:39:22.068+07:00 DEBUG 19840 --- [belajar-spring] [main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(4003, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@4d174189) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@628bd77e)
+2026-05-07T15:39:22.068+07:00 DEBUG 19840 --- [belajar-spring] [main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(4001, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@c30f26d) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@5d74507c)
+2026-05-07T15:39:22.068+07:00 DEBUG 19840 --- [belajar-spring] [main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(4002, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@2a984952) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@16944b58)
+2026-05-07T15:39:22.069+07:00 DEBUG 19840 --- [belajar-spring] [main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2004, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@1dbc607d) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@62b42406)
+2026-05-07T15:39:22.069+07:00 DEBUG 19840 --- [belajar-spring] [main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2005, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@a0e33db) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@3ef46749)
+2026-05-07T15:39:22.070+07:00 DEBUG 19840 --- [belajar-spring] [main] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2011, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@40b54762) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@362cf66)
+2026-05-07T15:39:32.732+07:00  INFO 19840 --- [belajar-spring] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-07T15:39:34.171+07:00  INFO 19840 --- [belajar-spring] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-07T15:39:36.545+07:00  INFO 19840 --- [belajar-spring] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-07T15:39:44.234+07:00  WARN 19840 --- [belajar-spring] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-07T15:39:44.535+07:00  WARN 19840 --- [belajar-spring] [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 6eb8301c-4060-4775-b5e5-838f40fcb81b
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-05-07T15:39:44.600+07:00  INFO 19840 --- [belajar-spring] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-05-07T15:39:52.222+07:00 DEBUG 19840 --- [belajar-spring] [main] c.sammy.belajar_spring.config.JwtFilter  : Filter 'jwtFilter' configured for use
+2026-05-07T15:39:52.224+07:00  INFO 19840 --- [belajar-spring] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-07T15:39:52.224+07:00  INFO 19840 --- [belajar-spring] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-07T15:39:52.226+07:00  INFO 19840 --- [belajar-spring] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-05-07T15:39:52.545+07:00  INFO 19840 --- [belajar-spring] [main] c.s.b.integration.AuthIntegrationTest    : Started AuthIntegrationTest in 54.643 seconds (process running for 65.119)
+2026-05-07T15:40:01.390+07:00  WARN 19840 --- [belajar-spring] [main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 1451, SQLState: 23000
+2026-05-07T15:40:01.391+07:00 ERROR 19840 --- [belajar-spring] [main] o.h.engine.jdbc.spi.SqlExceptionHelper   : Cannot delete or update a parent row: a foreign key constraint fails (`belajar_spring`.`order_headers`, CONSTRAINT `FK7jvtj97toi765tsi69dohnhcf` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`))
+2026-05-07T15:40:02.337+07:00  INFO 19840 --- [belajar-spring] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-07T15:40:02.345+07:00  INFO 19840 --- [belajar-spring] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-05-07T15:40:02.744+07:00  INFO 19840 --- [belajar-spring] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-05-07T16:03:24.098+07:00  INFO 18428 --- [belajar-spring] [main] c.s.b.integration.AuthIntegrationTest    : Starting AuthIntegrationTest using Java 17.0.18 with PID 18428 (started by IT in C:\Users\IT\IdeaProjects\belajar-spring)
+2026-05-07T16:03:24.120+07:00 DEBUG 18428 --- [belajar-spring] [main] c.s.b.integration.AuthIntegrationTest    : Running with Spring Boot v3.5.13, Spring v6.2.17
+2026-05-07T16:03:24.121+07:00  INFO 18428 --- [belajar-spring] [main] c.s.b.integration.AuthIntegrationTest    : The following 1 profile is active: "test"
+2026-05-07T16:03:31.201+07:00  INFO 18428 --- [belajar-spring] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-07T16:03:31.401+07:00  INFO 18428 --- [belajar-spring] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 166 ms. Found 3 JPA repository interfaces.
+2026-05-07T16:03:34.076+07:00  INFO 18428 --- [belajar-spring] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-07T16:03:34.412+07:00  INFO 18428 --- [belajar-spring] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.45.Final
+2026-05-07T16:03:34.541+07:00  INFO 18428 --- [belajar-spring] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-07T16:03:41.250+07:00  INFO 18428 --- [belajar-spring] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-07T16:03:41.583+07:00  INFO 18428 --- [belajar-spring] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-07T16:03:43.365+07:00  INFO 18428 --- [belajar-spring] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-05-07T16:03:43.368+07:00  INFO 18428 --- [belajar-spring] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-07T16:03:43.513+07:00  WARN 18428 --- [belajar-spring] [main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-07T16:03:43.563+07:00  INFO 18428 --- [belajar-spring] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-07T16:03:46.281+07:00  INFO 18428 --- [belajar-spring] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-07T16:03:46.455+07:00  INFO 18428 --- [belajar-spring] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-07T16:03:47.620+07:00  INFO 18428 --- [belajar-spring] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-07T16:03:50.016+07:00  WARN 18428 --- [belajar-spring] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-07T16:03:50.121+07:00  WARN 18428 --- [belajar-spring] [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 8bb3d139-d33c-40f6-9608-719d0fe58d6f
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-05-07T16:03:50.203+07:00  INFO 18428 --- [belajar-spring] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-05-07T16:03:55.721+07:00  INFO 18428 --- [belajar-spring] [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2026-05-07T16:03:56.076+07:00 DEBUG 18428 --- [belajar-spring] [main] c.sammy.belajar_spring.config.JwtFilter  : Filter 'jwtFilter' configured for use
+2026-05-07T16:03:56.078+07:00  INFO 18428 --- [belajar-spring] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-07T16:03:56.079+07:00  INFO 18428 --- [belajar-spring] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-07T16:03:56.081+07:00  INFO 18428 --- [belajar-spring] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-05-07T16:03:56.219+07:00  INFO 18428 --- [belajar-spring] [main] c.s.b.integration.AuthIntegrationTest    : Started AuthIntegrationTest in 34.146 seconds (process running for 47.944)
+2026-05-07T16:04:03.737+07:00  INFO 18428 --- [belajar-spring] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-07T16:04:03.750+07:00  INFO 18428 --- [belajar-spring] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-05-07T16:04:03.778+07:00  INFO 18428 --- [belajar-spring] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
